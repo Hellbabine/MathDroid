@@ -89,7 +89,8 @@
             android:minWidth="60dp"
             android:layout_row="0"
             android:enabled="true"
-            android:clickable="true" />
+            android:clickable="true"
+            android:onClick="btn1Click" />
 
         <Button
             android:layout_width="wrap_content"
@@ -104,7 +105,7 @@
             android:layout_row="0"
             android:enabled="true"
             android:clickable="true"
-            android:onClick="onClick" />
+            android:onClick="btn2Click" />
 
         <Button
             android:layout_width="wrap_content"
