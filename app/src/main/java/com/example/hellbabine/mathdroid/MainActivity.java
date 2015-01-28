@@ -1,134 +1,54 @@
 package com.example.hellbabine.mathdroid;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 
 
-public class MainActivity extends Activity  {
-    private TextView txtEquation;
-
+public class MainActivity extends FragmentActivity {
+    private Fragment currentFrag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Lancement de l'app");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        txtEquation = (TextView) findViewById(R.id.txtEquation);
-    }
+        if (savedInstanceState != null) {
+            //savedInstanceState.getString(SAVE_EQUATION);
+            //txtEquation.setText(savedInstanceState.getString(SAVE_EQUATION));
+            setContentView(R.layout.activity_main);
 
-    public void btn1Click(View v)
-    {
-        AddCarToEquation("1");
-    }
+        } else {
+            System.out.println("Lancement de l'app");
+            PortraitFragment portraitFragment = new PortraitFragment();
+            currentFrag = portraitFragment;
+            setContentView(R.layout.activity_main);
 
-    public void btn2Click(View v)
-    {
-        AddCarToEquation("2");
-    }
-
-    public void btn3Click(View v)
-    {
-        AddCarToEquation("3");
-    }
-
-    public void btn4Click(View v)
-    {
-        AddCarToEquation("4");
-    }
-
-    public void btn5Click(View v)
-    {
-        AddCarToEquation("5");
-    }
-
-    public void btn6Click(View v)
-    {
-        AddCarToEquation("6");
-    }
-
-    public void btn7Click(View v)
-    {
-        AddCarToEquation("7");
-    }
-
-    public void btn8Click(View v)
-    {
-        AddCarToEquation("8");
-    }
-
-    public void btn9Click(View v)
-    {
-        AddCarToEquation("9");
-    }
-
-    public void btn0Click(View v)
-    {
-        AddCarToEquation("0");
-    }
-
-    public void btnPlusClick(View v)
-    {
-        AddCarToEquation("+");
-    }
-
-    public void btnMinusClick(View v)
-    {
-        AddCarToEquation("-");
-    }
-
-    public void btnDivideClick(View v)
-    {
-        AddCarToEquation("/");
-    }
-
-    public void btnMultiplyClick(View v)
-    {
-        AddCarToEquation("*");
-    }
-
-    public void btnEqualClick(View v)
-    {
-        AddCarToEquation("=");
-    }
-
-    public void btnComaClick(View v)
-    {
-        AddCarToEquation(".");
-    }
-
-    public void btnPowerClick(View v)
-    {
-        AddCarToEquation("^");
-    }
-
-    public void btnVarClick(View v)
-    {
-        AddCarToEquation("x");
-    }
-
-    public void btnOpenClick(View v)
-    {
-        AddCarToEquation("(");
-    }
-
-    public void btnCloseClick(View v)
-    {
-        AddCarToEquation(")");
-    }
-
-    public void btnEraseClick(View v)
-    {
-        if(txtEquation.getText().length() != 0)
-        {
-            txtEquation.setText(txtEquation.getText().subSequence(0, txtEquation.getText().length() -1));
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, portraitFragment).commit();
         }
+
+    }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        //savedInstanceState.putCharSequence(SAVE_EQUATION, txtEquation.getText());
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 
-
-
-    public void AddCarToEquation(String c)
-    {
-        txtEquation.setText(txtEquation.getText() + c);
+    public void btnClick(View v){
+        if(currentFrag instanceof PortraitFragment)
+        {
+            PortraitFragment frag = (PortraitFragment) currentFrag;
+            frag.btnClick(v);
+        }
+        else if(currentFrag instanceof LandscapeFragment)
+        {
+            LandscapeFragment frag = (LandscapeFragment) currentFrag;
+            frag.btnClick(v);
+        }
     }
 }
