@@ -11,14 +11,30 @@ import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
     private Fragment currentFrag;
+    private String SAVE_EQUATION;
+    private String FORMAT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            //savedInstanceState.getString(SAVE_EQUATION);
-            //txtEquation.setText(savedInstanceState.getString(SAVE_EQUATION));
-            setContentView(R.layout.activity_main);
+            Boolean format = savedInstanceState.getBoolean(FORMAT);
+            if(!format)
+            {
+                PortraitFragment portraitFragment = new PortraitFragment();
+                currentFrag = portraitFragment;
+                setContentView(R.layout.activity_main);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, portraitFragment).commit();
+            }
+            else
+            {
+                LandscapeFragment fragment = new LandscapeFragment();
+                currentFrag = fragment;
+                setContentView(R.layout.activity_main);
 
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, fragment).commit();
+            }
         } else {
             System.out.println("Lancement de l'app");
             PortraitFragment portraitFragment = new PortraitFragment();
@@ -32,12 +48,23 @@ public class MainActivity extends FragmentActivity {
     }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Save the user's current game state
-        //savedInstanceState.putCharSequence(SAVE_EQUATION, txtEquation.getText());
-
+        if(currentFrag instanceof PortraitFragment)
+        {
+            PortraitFragment frag = (PortraitFragment) currentFrag;
+            savedInstanceState.putCharSequence(SAVE_EQUATION, frag.GetEquation());
+            savedInstanceState.putBoolean(FORMAT, true);
+        }
+        else if(currentFrag instanceof LandscapeFragment)
+        {
+            LandscapeFragment frag = (LandscapeFragment) currentFrag;
+            savedInstanceState.putCharSequence(SAVE_EQUATION, frag.GetEquation());
+            savedInstanceState.putBoolean(FORMAT, false);
+        }
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
+
+
 
     public void btnClick(View v){
         if(currentFrag instanceof PortraitFragment)

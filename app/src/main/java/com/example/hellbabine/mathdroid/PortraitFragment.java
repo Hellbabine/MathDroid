@@ -28,6 +28,72 @@ public class PortraitFragment extends Fragment {
         //TODO faire le switch pour savoir quel btn
         Button btn = (Button) v;
         System.out.println(btn.getText());
+        switch(btn.getId())
+        {
+            case R.id.btn0 :
+                AddCarToEquation("0");
+                break;
+            case R.id.btn1 :
+                AddCarToEquation("1");
+                break;
+            case R.id.btn2 :
+                AddCarToEquation("2");
+                break;
+            case R.id.btn3 :
+                AddCarToEquation("3");
+                break;
+            case R.id.btn4 :
+                AddCarToEquation("4");
+                break;
+            case R.id.btn5 :
+                AddCarToEquation("5");
+                break;
+            case R.id.btn6 :
+                AddCarToEquation("6");
+                break;
+            case R.id.btn7 :
+                AddCarToEquation("7");
+                break;
+            case R.id.btn8 :
+                AddCarToEquation("8");
+                break;
+            case R.id.btn9 :
+                AddCarToEquation("9");
+                break;
+            case R.id.btnPlus :
+                AddCarToEquation("+");
+                break;
+            case R.id.btnMinus :
+                AddCarToEquation("-");
+                break;
+            case R.id.btnDivide:
+                AddCarToEquation("/");
+                break;
+            case R.id.btnMultiply :
+                AddCarToEquation("*");
+                break;
+            case R.id.btnEqual :
+                AddCarToEquation("=");
+                break;
+            case R.id.btnComa :
+                AddCarToEquation(",");
+                break;
+            case R.id.btnPower :
+                AddCarToEquation("^");
+                break;
+            case R.id.btnVar :
+                AddCarToEquation("x");
+                break;
+            case R.id.btnOpen :
+                AddCarToEquation("(");
+                break;
+            case R.id.btnClose :
+                AddCarToEquation(")");
+                break;
+            case R.id.btnErase :
+                btnEraseClick(v);
+                break;
+        }
     }
     public void btn1Click(View v)
     {
@@ -146,5 +212,10 @@ public class PortraitFragment extends Fragment {
         {
             System.out.println("TxtEquation == Null");
         }
+    }
+
+    public CharSequence GetEquation()
+    {
+        return txtEquation.getText();
     }
 }
