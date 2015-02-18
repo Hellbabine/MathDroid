@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.hellbabine.mathdroid.math.MathCore;
+
 
 public class MainActivity extends FragmentActivity {
     private Frag currentFrag;
@@ -26,9 +28,10 @@ public class MainActivity extends FragmentActivity {
             setContentView(R.layout.activity_main);
             String equation = savedInstanceState.getString(SAVE_EQUATION);
             Bundle bundle = new Bundle();
+            bundle.remove("EQUATION");
             bundle.putString("EQUATION", equation);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, currentFrag).commit();
+                    .replace(R.id.container, currentFrag).commit();
             currentFrag.setArguments(bundle);
         } else {
             System.out.println("Lancement de l'app");
@@ -61,6 +64,7 @@ public class MainActivity extends FragmentActivity {
     public static class Frag extends android.support.v4.app.Fragment{
         private TextView txtEquation;
         private String equation;
+        private TextView txtResult;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -69,19 +73,21 @@ public class MainActivity extends FragmentActivity {
 
             View v = inflater.inflate(R.layout.activity_main, container, false);
             txtEquation = (TextView) v.findViewById(R.id.txtEquation);
+            txtResult = (TextView) v.findViewById(R.id.txtResult);
             return v;
         }
 
         @Override
         public void onStart() {
             super.onStart();
+            equation = "" ;
             Bundle bundle = this.getArguments();
             if (bundle != null) {
                 equation = bundle.getString("EQUATION","");
             }
             else
             {
-                equation = "FUCK OFF";
+                equation = "";
             }
             this.setEquation(equation);
         }
@@ -122,9 +128,9 @@ public class MainActivity extends FragmentActivity {
                 case R.id.btn7 :
                     AddCarToEquation("7");
                     break;
-               // case R.id.btn8 :
-                 //   AddCarToEquation("8");
-                   // break;
+                case R.id.btn8 :
+                    AddCarToEquation("8");
+                    break;
                 case R.id.btn9 :
                     AddCarToEquation("9");
                     break;
@@ -160,6 +166,9 @@ public class MainActivity extends FragmentActivity {
                     break;
                 case R.id.btnErase :
                     btnEraseClick(v);
+                    break;
+                case R.id.btnSolve:
+                    btnSolveClick(v);
                     break;
             }
         }
@@ -262,6 +271,14 @@ public class MainActivity extends FragmentActivity {
         {
             AddCarToEquation(")");
         }
+
+        public void btnSolveClick(View v)
+        {
+            MathCore math = new MathCore();
+            String result = math.SendEquation(txtEquation.getText().toString());
+            txtResult.setText("Résultat : " + result);
+        }
+
 
         public void btnEraseClick(View v)
         {
